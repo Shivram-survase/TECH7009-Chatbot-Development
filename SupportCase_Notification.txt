@@ -1,0 +1,52 @@
+/*
+Created By: Shivram Survase
+Trigger Name: SupportCase_Notification.apxt
+Description: This trigger sends email notifications to students on creation of new support case 
+*/
+
+trigger SupportCase_Notification on Technical_Issue__c (before insert, after insert) {
+
+    // Send a support case notification to students
+  List<Messaging.SingleEmailMessage> mails = new List<Messaging.SingleEmailMessage>();
+  
+  for (Technical_Issue__c myContact : Trigger.new) {
+    if (myContact.Email__c != null) {
+      // Step 1: Create a new Email
+      Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+    
+      // Step 2: Set list of people who should get the email
+      List<String> sendTo = new List<String>();
+      sendTo.add(myContact.Email__c);
+      mail.setToAddresses(sendTo);
+      
+      system.debug('myContact.Email__c: '+myContact.Email__c);
+      
+      // Step 3: Set who the email is sent from
+      mail.setReplyTo('19126278@brookes.ac.uk');
+      mail.setSenderDisplayName('Oxford Brookes University');
+    
+      // (Optional) Set list of people who should be CC'ed
+      List<String> ccTo = new List<String>();
+      ccTo.add('19126278@brookes.ac.uk');
+      mail.setCcAddresses(ccTo);
+
+      // Step 4. Set email contents - you can use variables!
+      mail.setSubject('New case reported: '+myContact.Name);
+      String body = 'Dear ' + myContact.Reported_By__c + ', ';
+      body += 'A new case '+myContact.Name+' has been raised successfully with IT service desk. Support team will get back to you with progress. Thanks.';
+      mail.setHtmlBody(body);
+    
+      // Step 5. Add your email to the master list
+      mails.add(mail);
+      
+      if(myContact.Email__c !=null && myContact.Email__c !=''){
+          Technical_Issue__c clObj = new Technical_Issue__c();
+          clObj.Id = myContact.Id;
+          clObj.Email_h__c = myContact.Email__c;
+          update clObj;
+      }
+    }
+  }
+  // Step 6: Send all emails in the master list
+  Messaging.sendEmail(mails);
+}

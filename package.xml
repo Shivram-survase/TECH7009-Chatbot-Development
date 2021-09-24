@@ -1,0 +1,18 @@
+<!-- 
+Created By: Shivram Survase
+File Name: package.xml
+Description: This is a manifest file used to retrieve bot metadata using Metadata API 
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+<types>
+<members>BROOKES_BOT_c</members>
+<name>Bot</name>
+</types>
+<types>
+<members>*</members>
+<name>MlDomain</name>
+</types>
+<version>45.0</version>
+</Package>
