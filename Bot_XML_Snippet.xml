@@ -1,0 +1,16 @@
+<!-- 
+Created By: Shivram Survase
+File Name: Bot_XML_Snippet.xml
+Description: This XML snippet needs to be added in .bot file to deploy the bot changes to Production org.  
+-->
+
+<contextVariables>
+<contextVariableMappings>
+<SObjectType>LiveChatTranscript</SObjectType>
+<fieldName>LiveChatTranscript.FirstName__c</fieldName>
+<messageType>WebChat</messageType>
+</contextVariableMappings>
+<dataType>Text</dataType>
+<developerName>TranscriptFirstName</developerName>
+<label>Transcript First Name</label>
+</contextVariables>
